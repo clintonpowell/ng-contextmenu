@@ -79,6 +79,9 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
         	return {
         		x: x, y: y
         	};
+        },
+        options: {
+            tapHoldLength: 400
         }
     };
     return _service;
@@ -93,6 +96,7 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
          link: function(scope, el, attrs) {
             scope.menuObject = ngContextmenu;
 
+            //shim for html5 vibrate API
             navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
 
             scope.$watch('menuObject.clickEvent', function(ev) {
@@ -103,16 +107,12 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
                 }
             });
 
-            angular.element(document).bind('touchend', function(e) {
-            	if(ngContextmenu._currentTouch) {
-            		e.stopPropagation();
-            		e.preventDefault();
-            		ngContextmenu._currentTouch = null;
-            	}
-            });
-
             angular.element(document).bind('contextmenu click', function(e) {
                 $apply(function() {
+                    // prevent closing of menu for mobile long-tap menu
+                    if(ngContextmenu._currentTouch) {
+                        return;
+                    }
                     ngContextmenu.clickEvent = null;
                     ngContextmenu.attachto = null;
                 });
@@ -155,7 +155,6 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
             		ngContextmenu._currentTouch = {element: el};
             		setTimeout(function() {
             			if(ngContextmenu._currentTouch && ngContextmenu._currentTouch.element == el) {
-            				ngContextmenu._currentTouch = null;
             				$apply(function() {
 	            				ngContextmenu.attachto = el;
 			                    ngContextmenu.items = scope.menuItems;
@@ -166,7 +165,7 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
 			                    };
 			                });
             			}
-            		}, 400)
+            		}, ngContextmenu.options.tapHoldLength)
             	})(el, e);
             });
 
