@@ -24,8 +24,8 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
 	// Checks if the menu, when opened, will extend off the screen.
 	// Need to reposition if this is the case
 	var _positionMenu = function(el) {
-		var yMax = $window.innerHeight + $window.scrollY;
-		var xMax = $window.innerWidth + $window.scrollX;
+		var yMax = $window.innerHeight + ($window.scrollY || $window.pageYOffset);
+		var xMax = $window.innerWidth + ($window.scrollX || $window.pageXOffset);
 		var elementDimensions = _elementDimensions(el);
 		var bottomY = _service.clickEvent.y+10 + elementDimensions.height + 2;
 		var rightX = _service.clickEvent.x+10 + elementDimensions.width + 2;
