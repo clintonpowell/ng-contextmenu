@@ -157,8 +157,8 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
                     ngContextmenu.items = scope.menuItems;
                     ngContextmenu._extraData = scope.extraData;
                     ngContextmenu.clickEvent = {
-                    	x: ev.clientX+($window.scrollX || $window.pageYOffset),
-                    	y: ev.clientY +($window.scrollY || $window.pageXOffset)
+                    	x: e.clientX+($window.scrollX || $window.pageYOffset),
+                    	y: e.clientY +($window.scrollY || $window.pageXOffset)
                     };
                 });
             });
