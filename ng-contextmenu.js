@@ -109,10 +109,14 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
 
             angular.element(document).bind('contextmenu click', function(e) {
                 $apply(function() {
+
                     // prevent closing of menu for mobile long-tap menu
                     if(ngContextmenu._currentTouch) {
+                        ngContextmenu._currentTouch = null;
                         return;
                     }
+                    if(ngContextmenu.attachto)
+                        ngContextmenu.attachto.removeClass('open');
                     ngContextmenu.clickEvent = null;
                     ngContextmenu.attachto = null;
                 });
@@ -149,13 +153,16 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
          },
          link: function(scope, el, attrs) {
          	var _currentTouch = null;
-
+            el.addClass('ng-contextmenu');
             el.bind('touchstart', function(e) {
             	(function(el, ev) {
             		ngContextmenu._currentTouch = {element: el};
             		setTimeout(function() {
             			if(ngContextmenu._currentTouch && ngContextmenu._currentTouch.element == el) {
             				$apply(function() {
+                                if(ngContextmenu.attachto)
+                                    ngContextmenu.attachto.removeClass('open');
+                                el.addClass('open');
 	            				ngContextmenu.attachto = el;
 			                    ngContextmenu.items = scope.menuItems;
 			                    ngContextmenu._extraData = scope.extraData;
@@ -173,7 +180,9 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
         	    e.stopPropagation();
                 e.preventDefault();
                 $apply(function () {
-
+                    if(ngContextmenu.attachto)
+                        ngContextmenu.attachto.removeClass('open');
+                    el.addClass('open');
                     ngContextmenu.attachto = el;
                     ngContextmenu.items = scope.menuItems;
                     ngContextmenu._extraData = scope.extraData;
