@@ -138,7 +138,10 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
 	            				ngContextmenu.attachto = el;
 			                    ngContextmenu.items = scope.menuItems;
 			                    ngContextmenu._extraData = scope.extraData;
-			                    ngContextmenu.clickEvent = {x: ev.clientX+$window.scrollX, y: ev.clientY +$window.scrollY };
+			                    ngContextmenu.clickEvent = {
+			                    	x: ev.clientX+($window.scrollX || $window.pageYOffset),
+			                    	y: ev.clientY +($window.scrollY || $window.pageXOffset)
+			                    };
 			                });
             			}
             		}, 800)
@@ -153,7 +156,10 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
                     ngContextmenu.attachto = el;
                     ngContextmenu.items = scope.menuItems;
                     ngContextmenu._extraData = scope.extraData;
-                    ngContextmenu.clickEvent = {x: e.clientX+$window.scrollX, y: e.clientY +$window.scrollY };
+                    ngContextmenu.clickEvent = {
+                    	x: ev.clientX+($window.scrollX || $window.pageYOffset),
+                    	y: ev.clientY +($window.scrollY || $window.pageXOffset)
+                    };
                 });
             });
          },
