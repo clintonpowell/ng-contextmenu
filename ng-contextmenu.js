@@ -146,9 +146,10 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
             });
 
             el.bind('contextmenu', function (e) {
+        	    e.stopPropagation();
+                e.preventDefault();
                 $apply(function () {
-                    e.stopPropagation();
-                    e.preventDefault();
+
                     ngContextmenu.attachto = el;
                     ngContextmenu.items = scope.menuItems;
                     ngContextmenu._extraData = scope.extraData;

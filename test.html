@@ -27,8 +27,8 @@
 </head>
 <body ng-controller="mainCtrl">
 	<h1 ng-contextmenu="menuItems">hi</h1>
-	<div ng-controller="altCtrl">
-		<h2  style="float:right" ng-repeat="x in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" ng-contextmenu="menuItems" ng-contextmenu-data="x">hey</h2>
+	<div ng-controller="altCtrl" style="float:right">
+		<h2 ng-repeat="x in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" ng-contextmenu="menuItems" ng-contextmenu-data="x">hey</h2>
 	</div>
 	<div ng-contextmenu-container></div>
 </body>
