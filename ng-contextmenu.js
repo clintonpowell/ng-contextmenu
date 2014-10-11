@@ -61,7 +61,7 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
         	// Wrap this in a timeout, since we need the menu items to have
         	// been populated to calculate width / height
         	if(navigator.vibrate) {
-        		navigator.vibrate(0.1);
+        		navigator.vibrate(20);
         	}
         	$apply(function() {
         		_positionMenu(el[0]);
