@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html ng-app="testApp">
+<head><title></title>
+	<script src="bower_components\angular\angular.min.js"></script>
+	<script src="bower_components\angular-sanitize\angular-sanitize.min.js"></script>
+	<script src="ng-contextmenu.js"></script>
+	<link rel="stylesheet" href="ng-contextmenu.css"></script>
+	<style type="text/css">
+		li {
+			cursor: pointer;
+		}
+		li > span {
+			display: inline-block;
+			width: 100px;
+		}
+		li > input {
+			display: inline-block;
+			width: 100px;
+		}
+	</style>
+	<script>
+	var testApp = angular.module('testApp', ['ng-contextmenu']);
+	testApp.controller('mainCtrl', ['$scope','$rootScope', 'ngContextmenuService', function($scope, $rootScope, contextMenu) {
+		$scope.title = "Home";
+		contextMenu.clickHandler = function(item, data) {
+			if(item.fn)
+				item.fn(data);
+		};
+
+		$scope.edit = function(data) {
+			data.renaming = false;
+			data.editing = true;
+		};
+
+		$scope.saveEdits = function(data) {
+			data.renaming = data.editing = false;
+		};
+
+		$scope.rename = function(data) {
+			data.renaming = true;
+			data.editing = false;
+		};
+
+		$scope.delete = function(data) {
+			$scope.workItems.splice($scope.workItems.indexOf(data), 1);
+		};
+
+		$scope.addMenu = [
+			{
+				title: 'Add New',
+				fn: function() {
+					var newItem = { editing: true, renaming: true, name: '', amount: 0};
+					$scope.workItems.push(newItem);
+				}
+			}
+		];
+
+		$scope.menuItems = [
+			{
+				title: 'Edit',
+				fn: $scope.edit
+			},
+			{
+				title: 'Rename',
+				fn: $scope.rename
+			},
+			{
+				divider: true
+			},
+			{
+				title: 'Add New',
+				fn: function() {
+					var newItem = { editing: true, renaming: true, name: '', amount: 0};
+					$scope.workItems.push(newItem);
+				}
+			},
+			{
+				title: 'Delete',
+				fn: $scope.delete
+			}
+		];
+		$scope.workItems = [
+			{
+				name: 'Item 1',
+				amount: 52
+			},
+			{
+				name: 'Item 2',
+				amount: 20
+			},
+			{
+				name: 'Item 3',
+				amount: 23
+			},
+			{
+				name: 'Item 4',
+				amount: 76
+			}
+		]
+	}]);
+	</script>
+</head>
+<body ng-controller="mainCtrl">
+	<h3 ng-contextmenu="addMenu">Work Items</h3>
+	<ul>
+		<li ng-repeat="item in workItems" ng-contextmenu="menuItems" ng-contextmenu-data="item">
+			<span ng-bind="item.name" ng-show="!item.renaming"></span>
+			<input type="text" size="6"  ng-model="item.name" ng-show="item.renaming" />
+
+			<span ng-bind="'$'+item.amount" ng-show="!item.editing"></span>
+			<input type="number" ng-model="item.amount" ng-show="item.editing" />
+			<button ng-show="item.editing || item.renaming" ng-click="saveEdits(item)">Save</button>
+		</li>
+	</ul>
+	<div ng-contextmenu-container></div>
+</body>
+</html>
