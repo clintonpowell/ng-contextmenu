@@ -19,11 +19,15 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
 				height: parseInt($window.getComputedStyle(el, "").getPropertyValue("height").split('px')[0])
 			};
 		}
-	};
+	}
+
+	, _eventPosition = function(ev) {
+
+	}
 
 	// Checks if the menu, when opened, will extend off the screen.
 	// Need to reposition if this is the case
-	var _positionMenu = function(el) {
+	, _positionMenu = function(el) {
 		var yMax = $window.innerHeight + ($window.scrollY || $window.pageYOffset);
 		var xMax = $window.innerWidth + ($window.scrollX || $window.pageXOffset);
 		var elementDimensions = _elementDimensions(el);
@@ -39,9 +43,9 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
 		} else {
 			el.style.left = (_service.clickEvent.x+10)+'px';
 		}
-	};
+	}
 
-	var _service = {
+	, _service = {
         _handleClick: function(item) {
         	if(item.disabled)
         		return;
@@ -60,12 +64,24 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
         		_positionMenu(el[0]);
         		el.addClass('open');
         	});
+        },
+        eventPosition: function(e, touch) {
+        	if(touch) {
+        		e = e.touches[0];
+        	}
+        	var x = e.clientX !== undefined ? e.clientX : e.pageX
+        	,   y = e.clientX !== undefined ? e.clientY : e.pageY;
+        	x += $window.scrollX === undefined ? $window.pageXOffset : $window.scrollX;
+        	y += $window.scrollY === undefined ? $window.pageYOffset : $window.scrollY;
+        	return {
+        		x: x, y: y
+        	};
         }
     };
     return _service;
 }]);
 
- app.directive('ngContextmenuContainer', ['ngContextmenuService', function(ngContextmenu) {
+ app.directive('ngContextmenuContainer', ['ngContextmenuService', '$timeout',  function(ngContextmenu, $apply) {
      return {
          replace: true,
      	template:   '<div class="ng-contextmenu-container">'+
@@ -140,8 +156,8 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
 			                    ngContextmenu.items = scope.menuItems;
 			                    ngContextmenu._extraData = scope.extraData;
 			                    ngContextmenu.clickEvent = {
-			                    	x: ev.clientX+($window.scrollX || $window.pageYOffset),
-			                    	y: ev.clientY +($window.scrollY || $window.pageXOffset)
+			                    	x: ngContextmenu.eventPosition(e, true).x,
+                    				y: ngContextmenu.eventPosition(e, true).y
 			                    };
 			                });
             			}
@@ -158,8 +174,8 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
                     ngContextmenu.items = scope.menuItems;
                     ngContextmenu._extraData = scope.extraData;
                     ngContextmenu.clickEvent = {
-                    	x: e.clientX+($window.scrollX || $window.pageYOffset),
-                    	y: e.clientY +($window.scrollY || $window.pageXOffset)
+                    	x: ngContextmenu.eventPosition(e).x,
+                    	y: ngContextmenu.eventPosition(e).y
                     };
                 });
             });
