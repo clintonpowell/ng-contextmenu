@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html ng-app="testApp">
+<head><title></title>
+	<script src="bower_components\angular\angular.min.js"></script>
+	<script src="bower_components\angular-sanitize\angular-sanitize.min.js"></script>
+	<script src="ng-contextmenu.js"></script>
+	<link rel="stylesheet" href="ng-contextmenu.css"></script>
+	<script>
+	var testApp = angular.module('testApp', ['ng-contextmenu']);
+	testApp.controller('mainCtrl', ['$scope','$rootScope', 'ngContextmenuService', function($scope, $rootScope, contextMenu) {
+		$scope.title = "Home";
+		contextMenu.clickHandler = function(item) {
+			window.location=item.href;
+		};
+		$scope.menuItems = [{title: 'Back', disabled:true}, {title: 'Forward', href: 'http://google.com'}];
+	}]);
+
+	testApp.controller('altCtrl', ['$scope','$rootScope', 'ngContextmenuService', function($scope, $rootScope, contextMenu) {
+		$scope.title = "Alt";
+		contextMenu.clickHandler = function(item) {
+			window.location=item.href;
+		};
+		$scope.menuItems = [{title: 'Backward', disabled:true}, {title: 'Forward', href: 'http://ebay.com'}];
+	}]);
+
+	</script>
+</head>
+<body ng-controller="mainCtrl">
+	<h1 ng-contextmenu="menuItems">hi</h1>
+	<div ng-controller="altCtrl">
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+		<h2 ng-contextmenu="menuItems">hey</h2>
+	</div>
+	<div ng-contextmenu-container></div>
+</body>
+</html>
