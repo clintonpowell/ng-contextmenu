@@ -60,6 +60,9 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
         attachMenu: function(el) {
         	// Wrap this in a timeout, since we need the menu items to have
         	// been populated to calculate width / height
+        	if(navigator.vibrate) {
+        		navigator.vibrate(0.1);
+        	}
         	$apply(function() {
         		_positionMenu(el[0]);
         		el.addClass('open');
@@ -88,15 +91,17 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
                     	'<div ng-repeat="item in menuObject.items" ng-contextmenu-item="item" ng-click="menuObject._handleClick(item)"></div>'+
                  	'</div>',
          link: function(scope, el, attrs) {
-             scope.menuObject = ngContextmenu;
+            scope.menuObject = ngContextmenu;
 
-             scope.$watch('menuObject.clickEvent', function(ev) {
-                 if(ev) {
-                 	ngContextmenu.attachMenu(el);
-                 } else {
-                 	el.removeClass('open');
-                 }
-             });
+            navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+
+            scope.$watch('menuObject.clickEvent', function(ev) {
+                if(ev) {
+                    ngContextmenu.attachMenu(el);
+                } else {
+                    el.removeClass('open');
+                }
+            });
 
             angular.element(document).bind('touchend', function(e) {
             	if(ngContextmenu._currentTouch) {
@@ -161,7 +166,7 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
 			                    };
 			                });
             			}
-            		}, 800)
+            		}, 400)
             	})(el, e);
             });
 
