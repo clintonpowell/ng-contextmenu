@@ -10,17 +10,17 @@
 	testApp.controller('mainCtrl', ['$scope','$rootScope', 'ngContextmenuService', function($scope, $rootScope, contextMenu) {
 		$scope.title = "Home";
 		contextMenu.clickHandler = function(item, data) {
-			console.log(item, data);
+			window.open(item.href);
 		};
-		$scope.menuItems = [{title: 'Back', disabled:true}, {title: 'Forward', href: 'http://google.com'}];
+		$scope.menuItems = [{title: 'Back', disabled:true}, {title: 'Forward', href: 'http://github.com/clintonpowell'}];
 	}]);
 
 	testApp.controller('altCtrl', ['$scope','$rootScope', 'ngContextmenuService', function($scope, $rootScope, contextMenu) {
 		$scope.title = "Alt";
 		contextMenu.clickHandler = function(item, data) {
-			console.log(item, data);
+			window.open(item.href);
 		};
-		$scope.menuItems = [{title: '<marquee>Backward</marquee>', disabled:true}, {title: 'Forward', href: 'http://ebay.com'}];
+		$scope.menuItems = [{title: 'Back', disabled:true}, {title: 'Forward', href: 'http://github.com/clintonpowell'}];
 	}]);
 
 	</script>
@@ -28,7 +28,10 @@
 <body ng-controller="mainCtrl">
 	<h1 ng-contextmenu="menuItems">hi</h1>
 	<div ng-controller="altCtrl" style="float:right">
-		<h2 ng-repeat="x in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" ng-contextmenu="menuItems" ng-contextmenu-data="x">hey</h2>
+		<h2 ng-repeat="x in [1,2,3,4,5,6,7,8,9,10]" ng-contextmenu="menuItems" ng-contextmenu-data="x">hey</h2>
+	</div>
+	<div ng-controller="altCtrl" style="float:left">
+		<h2 ng-repeat="x in [1,2,3,4,5,6,7,8,9,10]" ng-contextmenu="menuItems" ng-contextmenu-data="x">hey</h2>
 	</div>
 	<div ng-contextmenu-container></div>
 </body>

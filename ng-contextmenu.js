@@ -45,6 +45,7 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
         _handleClick: function(item) {
         	if(item.disabled)
         		return;
+        	_service.attachto = _service.clickEvent = null;
         	return _service.clickHandler(item, _service._extraData);
         },
         _extraData: { },
@@ -80,6 +81,21 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
                  	el.removeClass('open');
                  }
              });
+
+            angular.element(document).bind('touchend', function(e) {
+            	if(ngContextmenu._currentTouch) {
+            		e.stopPropagation();
+            		e.preventDefault();
+            		ngContextmenu._currentTouch = null;
+            	}
+            });
+
+            angular.element(document).bind('contextmenu click', function(e) {
+                $apply(function() {
+                    ngContextmenu.clickEvent = null;
+                    ngContextmenu.attachto = null;
+                });
+            });
          }
     }
  }]);
@@ -113,27 +129,12 @@ app.service('ngContextmenuService', ['$window', '$timeout', function($window, $a
          link: function(scope, el, attrs) {
          	var _currentTouch = null;
 
-            angular.element(document).bind('touchend', function(e) {
-            	if(_currentTouch) {
-            		e.stopPropagation();
-            		e.preventDefault();
-            		delete _currentTouch;
-            	}
-            });
-
-            angular.element(document).bind('contextmenu click', function(e) {
-                $apply(function() {
-                    ngContextmenu.clickEvent = null;
-                    ngContextmenu.attachto = null;
-                });
-            });
-
             el.bind('touchstart', function(e) {
             	(function(el, ev) {
-            		_currentTouch = {element: el};
+            		ngContextmenu._currentTouch = {element: el};
             		setTimeout(function() {
-            			if(_currentTouch && _currentTouch.element == el) {
-            				delete _currentTouch;
+            			if(ngContextmenu._currentTouch && ngContextmenu._currentTouch.element == el) {
+            				ngContextmenu._currentTouch = null;
             				$apply(function() {
 	            				ngContextmenu.attachto = el;
 			                    ngContextmenu.items = scope.menuItems;

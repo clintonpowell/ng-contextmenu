@@ -16,10 +16,12 @@
 
     .ng-contextmenu-container > div > div {
     	margin: 2px 0px;
-    	padding: 0px 8px;}
+    	padding: 0px 8px;
+    	color: inherit;}
 
     	.ng-contextmenu-container > div > div:hover {
     		background-color: #4281f4;
+    		color: #ffffff;
     		cursor: pointer;
     	}
 
