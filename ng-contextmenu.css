@@ -1,19 +1,17 @@
 .ng-contextmenu-container {
+	height: auto;
+	width: auto;
 	background-color: #ffffff;
 	border: 1px solid #aaaaaa;
 	box-shadow: 2px 2px 2px #aaaaaa;
 	position: absolute;
 	z-index: 1000;
 	display: block;
-    transition: max-height 0.25s ease-out, visibility: 0.25s;
     visibility: hidden;
-    max-height: 0;
     overflow: hidden;}
 	
 	.ng-contextmenu-container.open {
 		visibility: visible;
-    	max-height: 1000px;
-    	transition: max-height 0.25s ease-in;
     }
 
     .ng-contextmenu-container > div > div {
