@@ -44,7 +44,7 @@
     	background-color: #dddddd;
 }
 
-.ng-contextmenu {
+.ng-contextmenu * {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -53,7 +53,7 @@
     user-select: none;
 }
 
-.ng-contextmenu.open {
+.ng-contextmenu.open * {
     -webkit-touch-callout: auto;
     -webkit-user-select: auto;
     -khtml-user-select: auto;
